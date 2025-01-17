@@ -11,7 +11,7 @@ def estimatePrice(mileage=None, theta0=None, theta1=None):
 		exit(1)
 	if theta0 == None or theta1 == None:
 		try:
-			file = open("mandatory/vars", "r")
+			file = open("vars", "r")
 			text = file.read()
 			file.close()
 		except:
@@ -41,9 +41,9 @@ def estimatePrice(mileage=None, theta0=None, theta1=None):
 
 if __name__=="__main__":
 	if len(sys.argv) == 2:
-		print(estimatePrice(sys.argv[1]))
+		print("Estimated price:", estimatePrice(sys.argv[1]), "₳")
 	elif len(sys.argv) == 4:
-		print(estimatePrice(sys.argv[1], sys.argv[2], sys.argv[3]))
+		print("Estimated price:", estimatePrice(sys.argv[1], sys.argv[2], sys.argv[3]), "₳")
 	elif len(sys.argv) < 2: 
 		print("Not enough arguments provided.")
 	elif len(sys.argv) == 3: 

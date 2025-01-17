@@ -1,4 +1,6 @@
+import matplotlib.pyplot as plt
 from estimatePrice import estimatePrice
+import numpy
 
 
 def error_and_exit(line1, line2=None):
@@ -51,6 +53,15 @@ line_xs = [min(xs), max(xs)]
 line_ys = [estimatePrice(min(xs), temp_theta0, temp_theta1), estimatePrice(max(xs), temp_theta0, temp_theta1)]
 
 print(">> Thetas found:", temp_theta0, temp_theta1)
+precisions = []
+for val in values:
+	precisions.append(abs(estimatePrice(val[0]) - val[1]))
+print(">> Average error distance", sum(precisions) / len(precisions))
+
+
+
+
+
 
 try:
 	f = open("vars", "w")
@@ -58,3 +69,13 @@ try:
 	f.close()
 except:
 	print("Error: Unable to write result to a `vars` file")
+
+
+plt.scatter(xs, ys)
+plt.plot(line_xs, line_ys, color="red")
+plt.xlabel("Mileage (km)")
+plt.ylabel("Price (₳)")
+plt.title("Estimated price per mileage")
+plt.show()
+
+
