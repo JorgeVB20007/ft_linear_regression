@@ -1,4 +1,5 @@
 import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
 from estimatePrice import estimatePrice
 
 
@@ -34,9 +35,11 @@ for d in data[1:]:
 
 temp_theta0 = 0
 temp_theta1 = 0
+theta_history = []
 acceptable_tolerance = 0.0001
 
 while True:
+	theta_history.append([temp_theta0, temp_theta1])
 	thesum0 = 0
 	for sumattempt in range(len(values)):
 		thesum0 += estimatePrice(xs[sumattempt], temp_theta0, temp_theta1) - ys[sumattempt]
@@ -66,7 +69,7 @@ try:
 except:
 	print("Error: Unable to write result to a `vars` file")
 
-print(">> Generating graph...")
+print(">> Generating graphs...")
 
 plt.figure("ft_linear_regression")
 plt.scatter(xs, ys, color="blue", label="Individual prices")
@@ -75,4 +78,22 @@ plt.xlabel("Mileage (km)")
 plt.ylabel("Price (₳)")
 plt.title("Estimated price per mileage")
 plt.legend()
+plt.show()
+
+def update_line(frame):
+	new_start = [line_xs[0], estimatePrice(line_xs[0], theta_history[frame][0], theta_history[frame][1])]
+	new_end = [line_xs[1], estimatePrice(line_xs[1], theta_history[frame][0], theta_history[frame][1])]
+	line.set_data([new_start[0], new_end[0]], [new_start[1], new_end[1]])
+	return line,
+
+fig, ax = plt.subplots()
+ax.scatter(xs, ys, color="blue", label="Individual prices")
+ax.plot(line_xs, line_ys, color="lime", label="Expected line")
+line, = ax.plot([], [], color="red", label="Current average line")
+ax.legend()
+fig.canvas.manager.set_window_title("ft_linear_regression Animated")
+
+frames = len(theta_history)
+anim = FuncAnimation(fig, update_line, frames=frames, interval=10, blit=True)
+
 plt.show()
