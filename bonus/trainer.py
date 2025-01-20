@@ -55,7 +55,7 @@ line_ys = [estimatePrice(min(xs), temp_theta0, temp_theta1), estimatePrice(max(x
 print(">> Thetas found:", temp_theta0, temp_theta1)
 precisions = []
 for val in values:
-	precisions.append(abs(estimatePrice(val[0]) - val[1]))
+	precisions.append(abs(estimatePrice(val[0], temp_theta0, temp_theta1) - val[1]))
 print(">> Average error distance", sum(precisions) / len(precisions))
 
 
